@@ -1,8 +1,4 @@
-
 import arcade
-import os
-import random
-# from arcade import *
 
 class MyGame(arcade.Window):
 
@@ -12,34 +8,47 @@ class MyGame(arcade.Window):
         self.sprite = None
         self.playerSpriteList = arcade.SpriteList()
 
+        self.speed = 6
+        self.change_x = 0
+        self.change_y = 0
+
         self.setup()
 
     def setup(self):
-        
         self.sprite = arcade.Sprite("shooter.png")
 
-        self.sprite.center_x = 100
-        self.sprite.center_y = 100
-        self.sprite.scale_x = 5.0
-        self.sprite.scale_y = 5.0
+        self.sprite.center_x = 300
+        self.sprite.center_y = 300
 
         self.playerSpriteList.append(self.sprite)
 
-        
-
     def on_draw(self):
+        self.clear()
         self.playerSpriteList.draw()
-        
-    def on_update(self, deltaTime):
-        self.sprite.center_x += 1
 
+    def on_update(self, delta_time):
+        self.sprite.center_x += self.change_x
+        self.sprite.center_y += self.change_y
 
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.W:
+            self.change_y = self.speed
+        elif key == arcade.key.S:
+            self.change_y = -self.speed
+        elif key == arcade.key.A:
+            self.change_x = -self.speed
+        elif key == arcade.key.D:
+            self.change_x = self.speed
+
+    def on_key_release(self, key, modifiers):
+        if key == arcade.key.W or key == arcade.key.S:
+            self.change_y = 0
+        elif key == arcade.key.A or key == arcade.key.D:
+            self.change_x = 0
 
 
 def main():
-    game = MyGame(
-        600, 600, "Endless_Galactic_Ship"
-    )
+    game = MyGame(600, 600, "Endless Galactic Ship")
     arcade.run()
 
 
