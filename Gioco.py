@@ -1,139 +1,47 @@
+
 import arcade
+import os
 import random
+# from arcade import *
 
 class MyGame(arcade.Window):
-    
+
     def __init__(self, width, height, title):
-        # Ignorare per il momento
-        super().__init__(width, height, title, fullscreen=True, )
-        self.player_list = None
-        self.player_sprite = None
-        
-        arcade.set_background_color(arcade.color.DARK_BLUE)
-        
-        # ATTRIBUTI -> lo stato del nostro gioco
-        self.rect_x = width // 2  #  X  (centro)
-        self.rect_y = height // 2  # Y  (centro)
-        self.rect_size = 50  # Dimensione iniziale
-        self.rect_color = arcade.color.RED  # Colore iniziale
-        
-        # Lista di colori
-        self.color_list = [
-            arcade.color.RED,
-            arcade.color.BLUE,
-            arcade.color.GREEN,
-            arcade.color.YELLOW,
-            arcade.color.PURPLE,
-            arcade.color.ORANGE,
-            arcade.color.PINK,
-            arcade.color.TURQUOISE
-        ]
-        
-        # Imposta lo sfondo
-        arcade.set_background_color(arcade.color.DARK_BLUE)
-    
-    # Chiamato ad ogni frame. delta_time di solito è 1/60 di secondo. 
-    # In questo metodo qui "ridisegnamo" lo schermo
-    def on_draw(self):
-        # Pulisci lo schermo
-        self.clear()
-        
-        # Disegna un rettangolo
-        arcade.draw_rect_filled(
-            arcade.XYWH(
-                self.rect_x, 
-                self.rect_y,
-                self.rect_size,  # width
-                self.rect_size,  # height
-            ),
-            self.rect_color
-        )
-        
-        # Disegna le scritte
-        arcade.draw_text(
-            "Premi SPAZIO, e cambierà colore!",
-            10, self.height - 30,
-            arcade.color.WHITE, 14
-        )
-        
-        arcade.draw_text(
-            f"Dim: {self.rect_size}",
-            10, self.height - 55,
-            arcade.color.WHITE, 14
-        )
+        super().__init__(width, height, title, fullscreen=True)
 
-        
+        self.sprite = None
+        self.playerSpriteList = arcade.SpriteList()
 
-    # Chiamato ad ogni frame. delta_time di solito è 1/60 di secondo  
-    # In questa sezione mettiamo la LOGICA del gioco  
-    def on_update(self, delta_time):
-        # Aumenta la dimensione del rettangolo
-        self.rect_size += 0.5
-        
-        # Resetta la dimensione se è troppo grande
-        if self.rect_size > 200:
-            self.rect_size = 50
-
-
-    # Chiamato automaticamente quando un tasto viene premuto.
-    def on_key_press(self, key, modifiers):
-        if key == arcade.key.SPACE:
-            self.rect_color = random.choice(self.color_list)
-            print(f"Colore cambiato! Nuovo colore: {self.rect_color}")
-        if key == arcade.key.R:
-            self.rect_size = 50
-        if key == arcade.key.W:
-            self.rect_y += 10
-        if key == arcade.key.S:
-            self.rect_y += -10
-        if key == arcade.key.D:
-            self.rect_x += 10
-        if key == arcade.key.A:
-            self.rect_x += -10
-    
-        self.player_list = None
-        self.player_sprite = None
-        
-        arcade.set_background_color(arcade.color.DARK_BLUE)
+        self.setup()
 
     def setup(self):
-        """ Configura il gioco e inizializza gli oggetti """
         
-        self.player_list = arcade.SpriteList()
+        self.sprite = arcade.Sprite("shooter.png")
 
-       
-        self.player_sprite = arcade.Sprite("shooter.png", scale=0.5)
+        self.sprite.center_x = 100
+        self.sprite.center_y = 100
+        self.sprite.scale_x = 5.0
+        self.sprite.scale_y = 5.0
+
+        self.playerSpriteList.append(self.sprite)
+
         
-        
-        self.player_sprite.center_x = self.width // 2
-        self.player_sprite.center_y = self.height // 2
-        
-        
-        self.player_list.append(self.player_sprite)
 
     def on_draw(self):
-        self.clear()
+        self.playerSpriteList.draw()
         
-        
-        self.player_list.draw()
-        
-        arcade.draw_text("Usa WASD per muovere lo sprite!", 10, self.height - 30, arcade.color.WHITE, 14)
+    def on_update(self, deltaTime):
+        self.sprite.center_x += 1
 
-    def on_key_press(self, key, modifiers):
-        
-        if key == arcade.key.W:
-            self.player_sprite.center_y += 20
-        elif key == arcade.key.S:
-            self.player_sprite.center_y -= 20
-        elif key == arcade.key.D:
-            self.player_sprite.center_x += 20
-        elif key == arcade.key.A:
-            self.player_sprite.center_x -= 20
 
-def run_game():
-    game = MyGame(1300, 800, "Endless Galactic Ship")
-    game.setup() 
+
+
+def main():
+    game = MyGame(
+        600, 600, "Endless_Galactic_Ship"
+    )
     arcade.run()
 
+
 if __name__ == "__main__":
-    run_game()
+    main()
