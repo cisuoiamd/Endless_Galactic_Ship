@@ -33,6 +33,8 @@ class MyGame(arcade.Window):
     def on_update(self, delta_time):
         self.sprite.center_x += self.change_x
         self.sprite.center_y += self.change_y
+        self.sprite.width=150
+        self.sprite.height=200
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.W:
