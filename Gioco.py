@@ -20,7 +20,7 @@ class MyGame(arcade.Window):
         self.sprite.center_y = 300
         self.playerSpriteList.append(self.sprite)
 
-        self.background = arcade.load_texture("./assets/sfondos.png")
+        self.background = arcade.load_texture("./assets/sfondo.png")
 
     def on_draw(self):
         self.clear()
