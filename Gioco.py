@@ -16,17 +16,17 @@ class MyGame(arcade.Window):
 
     def setup(self):
         self.sprite = arcade.Sprite("./assets/shooter.png")
-        self.sprite.center_x = 300
+        self.sprite.center_x = 100
         self.sprite.center_y = 300
         self.playerSpriteList.append(self.sprite)
 
-        self.background = arcade.load_texture("./assets/sfondo.png")
+        self.background = arcade.load_texture("./assets/sfondos.png")
 
     def on_draw(self):
         self.clear()
         arcade.draw_texture_rect(
             self.background,
-            arcade.LBWH(0,0,1400,800)
+            arcade.LBWH(0,0,self.width,self.height)
         )
         self.playerSpriteList.draw()
 
