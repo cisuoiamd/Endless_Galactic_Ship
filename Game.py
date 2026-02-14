@@ -23,7 +23,7 @@ class GameView(arcade.View):
         self.barra = None
         
         self.enemy_spawn_timer = 0
-        self.enemy_spawn_interval = 2.8
+        self.enemy_spawn_interval = 1.8
         self.enemy_speed = 4.2
         self.lives = 1.0
         
@@ -46,7 +46,7 @@ class GameView(arcade.View):
         self.lives = 1.0
 
     def spawn_enemy(self):
-        nemico = Enemy(screen_height=HEIGHT, scale=0.55, speed=self.enemy_speed)
+        nemico = Enemy(screen_height=HEIGHT, scale=0.3, speed=self.enemy_speed)
         self.enemy_list.append(nemico)
 
     def on_draw(self):
