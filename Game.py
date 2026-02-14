@@ -1,6 +1,6 @@
 import arcade
 import Health_bar
-from nemico import Enemy
+from Nemicobase import Enemy
 
 WIDTH = 900
 HEIGHT = 600
