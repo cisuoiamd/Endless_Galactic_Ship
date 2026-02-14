@@ -23,9 +23,10 @@ class GameView(arcade.View):
         self.barra = None
         
         self.enemy_spawn_timer = 0
-        self.enemy_spawn_interval = 1.8
-        self.enemy_speed = 4.2
+        self.enemy_spawn_interval = 0.5
+        self.enemy_speed = 6
         self.lives = 1.0
+        self.score = 0
         
         self.setup()
 
@@ -44,6 +45,7 @@ class GameView(arcade.View):
         self.change_y = 0
         self.enemy_spawn_timer = 0
         self.lives = 1.0
+        self.score = 0
 
     def spawn_enemy(self):
         nemico = Enemy(screen_height=HEIGHT, scale=0.3, speed=self.enemy_speed)
@@ -59,6 +61,14 @@ class GameView(arcade.View):
         self.player_list.draw()
         self.bullet_list.draw()
         self.barra.on_draw()
+        
+        arcade.draw_text(f"Killed: {self.score}",
+                         50,
+                         self.window.height - 50,
+                         arcade.color.WHITE,
+                         font_size=24,
+                         anchor_x="left")
+        
         arcade.draw_text("Press ESC to pause",
                          self.window.width // 2,
                          self.window.height - 50,
@@ -81,7 +91,13 @@ class GameView(arcade.View):
             self.enemy_spawn_timer = 0
         
         self.enemy_list.update()
-        
+
+        for bullet in self.bullet_list[:]:
+            hit_list = arcade.check_for_collision_with_list(bullet, self.enemy_list)
+            for enemy in hit_list:
+                bullet.remove_from_sprite_lists()
+                enemy.remove_from_sprite_lists()
+                self.score += 1
         for enemy in self.enemy_list[:]:
             if arcade.check_for_collision(self.player_sprite, enemy):
                 self.lives -= 0.10
@@ -113,17 +129,14 @@ class GameView(arcade.View):
             self.window.show_view(pause)
         if key == arcade.key.SPACE:
             self.shoot()
-
     def on_key_release(self, key, modifiers):
         if key == arcade.key.W or key == arcade.key.S:
             self.change_y = 0
         if key == arcade.key.A or key == arcade.key.D:
             self.change_x = 0
-
     def on_mouse_press(self, x, y, button, modifiers):
         if button == arcade.MOUSE_BUTTON_LEFT:
             self.shoot()
-
 class PauseView(arcade.View):
     def __init__(self, game_view):
         super().__init__()
@@ -131,7 +144,6 @@ class PauseView(arcade.View):
 
     def on_show_view(self):
         self.window.background_color = arcade.color.ORANGE  
-
     def on_draw(self):
         self.clear()
         arcade.draw_texture_rect(
