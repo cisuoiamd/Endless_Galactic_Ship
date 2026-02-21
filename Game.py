@@ -1,9 +1,50 @@
 import arcade
+import random
 import Health_bar
 from Nemicobase import Enemy
 
 WIDTH = 900  
 HEIGHT = 1079  #modificare questo parametro per far spawnare i nemici + in alto (1079 per schermi da pc fissi, 800 per laptop)
+
+class MenuView(arcade.View):
+    def on_show_view(self):
+        self.window.background_color = arcade.color.WHITE
+
+    def on_draw(self):
+        self.clear()
+        arcade.draw_text("Menu Screen", WIDTH / 2, HEIGHT / 2,
+                         arcade.color.BLACK, font_size=50, anchor_x="center")
+        arcade.draw_text("Click to advance", WIDTH / 2, HEIGHT / 2 - 75,
+                         arcade.color.GRAY, font_size=20, anchor_x="center")
+
+    def on_mouse_press(self, _x, _y, _button, _modifiers):
+        instructions_view = InstructionView()
+        self.window.show_view(instructions_view)
+class InstructionView(arcade.View):
+    def on_show_view(self):
+        self.window.background_color = arcade.color.BLACK
+
+    def on_draw(self):
+        self.clear()
+        arcade.draw_text("Comands Screen for PC", WIDTH / 1, HEIGHT / 1.3,
+                         arcade.color.WHITE, font_size=100, anchor_x="center")
+        arcade.draw_text("Click to start the game", WIDTH / 1, HEIGHT / 2.3 - 75,
+                         arcade.color.WHITE, font_size=20, anchor_x="center")
+        arcade.draw_text("Fire = Left Mouse, SPACE", WIDTH / 1, HEIGHT / 1.5,
+                         arcade.color.WHITE, font_size=40, anchor_x="center")
+        arcade.draw_text("Go Up: W", WIDTH / 1, HEIGHT / 1.65,
+                         arcade.color.WHITE, font_size=40, anchor_x="center")
+        arcade.draw_text("Go Down: S", WIDTH / 1, HEIGHT / 1.8 ,
+                         arcade.color.WHITE, font_size=40, anchor_x="center")
+        arcade.draw_text("Go Left: A", WIDTH / 1, HEIGHT / 2,
+                         arcade.color.WHITE, font_size=40, anchor_x="center")
+        arcade.draw_text("Go Right: D", WIDTH / 1, HEIGHT / 2.2 ,
+                         arcade.color.WHITE, font_size=40, anchor_x="center")
+        
+
+    def on_mouse_press(self, _x, _y, _button, _modifiers):
+        game_view = GameView()
+        self.window.show_view(game_view)
 
 class GameView(arcade.View):
     def __init__(self):
@@ -202,6 +243,8 @@ def main():
     window = arcade.Window(WIDTH, HEIGHT, "Endless Galactic Ship", fullscreen=True)
     game_view = GameView()
     window.show_view(game_view)
+    menu_view = MenuView()
+    window.show_view(menu_view)
     arcade.run()
 
 if __name__ == "__main__":
