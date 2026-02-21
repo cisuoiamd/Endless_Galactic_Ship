@@ -24,8 +24,6 @@ class Ezuripresents(arcade.View):
                          arcade.color.RED, font_size=50, anchor_x="center")
         arcade.draw_text("Click to skip", WIDTH / 1, HEIGHT / 2 - 500,
                          arcade.color.GREEN, font_size=20, anchor_x="center")
-
-
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         menu_view = MenuView()
         self.window.show_view(menu_view)
@@ -39,10 +37,6 @@ class MenuView(arcade.View):
                          arcade.color.PURPLE, font_size=120, anchor_x="center")
         arcade.draw_text("Click to advance", WIDTH / 1, HEIGHT / 2 - 255,
                          arcade.color.RED, font_size=20, anchor_x="center")
-
-                         
-
-
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         instructions_view = InstructionView()
         self.window.show_view(instructions_view)
@@ -71,6 +65,35 @@ class InstructionView(arcade.View):
         game_view = GameView()
         self.window.show_view(game_view)
 
+class GameOverView(arcade.View):
+    def __init__(self):
+        super().__init__()
+        self.time_taken = 0
+
+    def on_show_view(self):
+        self.window.background_color = arcade.color.BLACK
+
+    def on_draw(self):
+        self.clear()
+        """
+        Draw "Game over" across the screen.
+        """
+        arcade.draw_text(
+            "Game Over",
+            x=WIDTH / 2,
+            y=400,
+            color=arcade.color.WHITE,
+            font_size=54,
+            anchor_x="center"
+        )
+        arcade.draw_text(
+            "You Died",
+            x=WIDTH / 2,
+            y=200,
+            color=arcade.color.RED,
+            font_size=25,
+            anchor_x="center"
+        )
 class GameView(arcade.View):
     def __init__(self):
         super().__init__()
@@ -107,7 +130,6 @@ class GameView(arcade.View):
         self.player_list.clear()
         self.player_list.append(self.player_sprite)
         self.barra = Health_bar.Barra(self.player_sprite, self.lives)
-        
         self.enemy_list = arcade.SpriteList()
         self.bullet_list.clear()
         self.change_x = 0
@@ -115,7 +137,6 @@ class GameView(arcade.View):
         self.enemy_spawn_timer = 0
         self.lives = 1.0
         self.score = 0
-
     def spawn_enemy(self):
         nemico = Enemy(screen_height=HEIGHT, scale=0.3, speed=self.enemy_speed)
         self.enemy_list.append(nemico)
@@ -130,21 +151,18 @@ class GameView(arcade.View):
         self.player_list.draw()
         self.bullet_list.draw()
         self.barra.on_draw()
-        
         arcade.draw_text(f"Killed: {self.score}",
                          50,
                          self.window.height - 50,
                          arcade.color.WHITE,
                          font_size=24,
                          anchor_x="left")
-        
         arcade.draw_text("Press ESC to pause",
                          self.window.width // 2,
                          self.window.height - 50,
                          arcade.color.WHITE,
                          font_size=30,
                          anchor_x="center")
-
     def on_update(self, delta_time):
         self.player_sprite.center_x += self.change_x
         self.player_sprite.center_y += self.change_y
@@ -154,14 +172,11 @@ class GameView(arcade.View):
         for bullet in self.bullet_list[:]:
             if bullet.left > self.window.width:
                 bullet.remove_from_sprite_lists()
-        
         self.enemy_spawn_timer += delta_time
         if self.enemy_spawn_timer >= self.enemy_spawn_interval:
             self.spawn_enemy()
             self.enemy_spawn_timer = 0
-        
         self.enemy_list.update()
-
         for bullet in self.bullet_list[:]:
             hit_list = arcade.check_for_collision_with_list(bullet, self.enemy_list)
             for enemy in hit_list:
@@ -174,9 +189,11 @@ class GameView(arcade.View):
                 if self.lives < 0:
                     self.lives = 0
                 enemy.remove_from_sprite_lists()
-        
         self.barra.percentuale = self.lives
-
+        if (self.lives) == 0:
+            game_over_view = GameOverView()
+            self.window.set_mouse_visible(True)
+            self.window.show_view(game_over_view)
     def shoot(self):
         if self.shoot_timer > 0:
             return      
@@ -187,6 +204,7 @@ class GameView(arcade.View):
         bullet.change_x = self.bullet_speed
         bullet.change_y = 0
         self.bullet_list.append(bullet)
+    
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.W:
@@ -214,6 +232,7 @@ class GameView(arcade.View):
         if button == arcade.MOUSE_BUTTON_LEFT:
             if self.shoot_timer <= 0: 
                 self.shoot()
+
 class PauseView(arcade.View):
     def __init__(self, game_view):
         super().__init__()
@@ -257,14 +276,12 @@ class PauseView(arcade.View):
                          arcade.color.WHITE,
                          font_size=40,
                          anchor_x="center")
-
     def on_key_press(self, key, _modifiers):
         if key == arcade.key.ESCAPE:
             self.window.show_view(self.game_view)
         elif key == arcade.key.ENTER:
             game = GameView()
             self.window.show_view(game)
-
 def main():
     window = arcade.Window(WIDTH, HEIGHT, "Endless Galactic Ship", fullscreen=True)
     splash = Ezuripresents()
