@@ -4,7 +4,8 @@ import Health_bar
 from Nemicobase import Enemy
 
 WIDTH = 900  
-HEIGHT = 1079  #modificare questo parametro per far spawnare i nemici + in alto (1079 per schermi da pc fissi, 800 per laptop)
+HEIGHT = 1079  #modificare questo parametro per far spawnare i nemici + in alto (1079 per schermi da pc fissi, 800 per laptop) 
+#ATTENZIONE CHE ANCHE SU Nemiconbase.py ci sono parametri da modificare
 
 class MenuView(arcade.View):
     def on_show_view(self):
@@ -14,8 +15,8 @@ class MenuView(arcade.View):
         self.clear()
         arcade.draw_text("ENDLESS GALACTIC SHIP", WIDTH / 1, HEIGHT / 1.3,
                          arcade.color.WHITE, font_size=100, anchor_x="center")
-        arcade.draw_text("Click to advance", WIDTH / 1, HEIGHT / 2 - 75,
-                         arcade.color.GRAY, font_size=20, anchor_x="center")
+        arcade.draw_text("Click to advance", WIDTH / 1, HEIGHT / 2 - 155,
+                         arcade.color.RED, font_size=20, anchor_x="center")
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         instructions_view = InstructionView()
@@ -215,21 +216,21 @@ class PauseView(arcade.View):
         )
         arcade.draw_text("PAUSE",
                          self.window.width / 2,
-                         self.window.height / 2 + 50,
+                         self.window.height / 2 + 150,
                          arcade.color.WHITE,
-                         font_size=50,
+                         font_size=150,
                          anchor_x="center")
         arcade.draw_text("Press ESC to continue",
                          self.window.width / 2,
-                         self.window.height / 2,
+                         self.window.height / 2+20,
                          arcade.color.WHITE,
-                         font_size=20,
+                         font_size=40,
                          anchor_x="center")
         arcade.draw_text("Press ENTER to reset",
                          self.window.width / 2,
                          self.window.height / 2 - 30,
                          arcade.color.WHITE,
-                         font_size=20,
+                         font_size=40,
                          anchor_x="center")
 
     def on_key_press(self, key, _modifiers):
