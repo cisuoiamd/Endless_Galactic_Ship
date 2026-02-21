@@ -8,13 +8,13 @@ HEIGHT = 1079  #modificare questo parametro per far spawnare i nemici + in alto 
 
 class MenuView(arcade.View):
     def on_show_view(self):
-        self.window.background_color = arcade.color.WHITE
+        self.window.background_color = arcade.color.BLACK
 
     def on_draw(self):
         self.clear()
-        arcade.draw_text("Menu Screen", WIDTH / 2, HEIGHT / 2,
-                         arcade.color.BLACK, font_size=50, anchor_x="center")
-        arcade.draw_text("Click to advance", WIDTH / 2, HEIGHT / 2 - 75,
+        arcade.draw_text("ENDLESS GALACTIC SHIP", WIDTH / 1, HEIGHT / 1.3,
+                         arcade.color.WHITE, font_size=100, anchor_x="center")
+        arcade.draw_text("Click to advance", WIDTH / 1, HEIGHT / 2 - 75,
                          arcade.color.GRAY, font_size=20, anchor_x="center")
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
@@ -28,20 +28,19 @@ class InstructionView(arcade.View):
         self.clear()
         arcade.draw_text("Comands Screen for PC", WIDTH / 1, HEIGHT / 1.3,
                          arcade.color.WHITE, font_size=100, anchor_x="center")
-        arcade.draw_text("Click to start the game", WIDTH / 1, HEIGHT / 2.3 - 75,
-                         arcade.color.WHITE, font_size=20, anchor_x="center")
-        arcade.draw_text("Fire = Left Mouse, SPACE", WIDTH / 1, HEIGHT / 1.5,
+        arcade.draw_text("Click to start the game", WIDTH / 1, HEIGHT / 2.2 - 400,
+                         arcade.color.RED, font_size=30, anchor_x="center")
+        arcade.draw_text("Fire = Left Mouse, SPACE", WIDTH / 1, HEIGHT / 2 +100,
                          arcade.color.WHITE, font_size=40, anchor_x="center")
-        arcade.draw_text("Go Up: W", WIDTH / 1, HEIGHT / 1.65,
+        arcade.draw_text("Go Up: W", WIDTH / 1, HEIGHT / 2 +0,
                          arcade.color.WHITE, font_size=40, anchor_x="center")
-        arcade.draw_text("Go Down: S", WIDTH / 1, HEIGHT / 1.8 ,
+        arcade.draw_text("Go Down: S", WIDTH / 1, HEIGHT / 2 -100 ,
                          arcade.color.WHITE, font_size=40, anchor_x="center")
-        arcade.draw_text("Go Left: A", WIDTH / 1, HEIGHT / 2,
+        arcade.draw_text("Go Left: A", WIDTH / 1, HEIGHT / 2 -200 ,
                          arcade.color.WHITE, font_size=40, anchor_x="center")
-        arcade.draw_text("Go Right: D", WIDTH / 1, HEIGHT / 2.2 ,
+        arcade.draw_text("Go Right: D", WIDTH / 1, HEIGHT / 2 -300,
                          arcade.color.WHITE, font_size=40, anchor_x="center")
         
-
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         game_view = GameView()
         self.window.show_view(game_view)
@@ -117,7 +116,7 @@ class GameView(arcade.View):
                          self.window.width // 2,
                          self.window.height - 50,
                          arcade.color.WHITE,
-                         font_size=20,
+                         font_size=30,
                          anchor_x="center")
 
     def on_update(self, delta_time):
@@ -223,7 +222,7 @@ class PauseView(arcade.View):
                          self.window.width / 2,
                          self.window.height / 2,
                          arcade.color.WHITE,
-                         font_size=20,
+                         font_size=0,
                          anchor_x="center")
         arcade.draw_text("Press ENTER to reset",
                          self.window.width / 2,
