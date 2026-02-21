@@ -5,7 +5,7 @@ from Nemicobase import Enemy
 
 WIDTH = 900  
 HEIGHT = 1079  #modificare questo parametro per far spawnare i nemici + in alto (1079 per schermi da pc fissi, 800 per laptop) 
-#ATTENZIONE CHE ANCHE SU Nemiconbase.py ci sono parametri da modificare
+#ATTENZIONE CHE ANCHE SU Nemiconbase.py ci sono parametri da modificare anche 
 
 class MenuView(arcade.View):
     def on_show_view(self):
@@ -17,6 +17,7 @@ class MenuView(arcade.View):
                          arcade.color.WHITE, font_size=100, anchor_x="center")
         arcade.draw_text("Click to advance", WIDTH / 1, HEIGHT / 2 - 155,
                          arcade.color.RED, font_size=20, anchor_x="center")
+
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         instructions_view = InstructionView()
@@ -247,6 +248,5 @@ def main():
     menu_view = MenuView()
     window.show_view(menu_view)
     arcade.run()
-
 if __name__ == "__main__":
     main()
