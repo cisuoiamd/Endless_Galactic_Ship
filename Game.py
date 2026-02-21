@@ -7,6 +7,22 @@ WIDTH = 900
 HEIGHT = 1079  #modificare questo parametro per far spawnare i nemici + in alto (1079 per schermi da pc fissi, 800 per laptop) 
 #ATTENZIONE CHE ANCHE SU Nemiconbase.py ci sono parametri da modificare anche nella riga 71 0.15 per pc fissi, 0.4-5 per laptop
 
+class Ezuripresents(arcade.View):
+    def on_show_view(self):
+        self.window.background_color = arcade.color.BLACK
+
+    def on_draw(self):
+        self.clear()
+        arcade.draw_text("Ezuri's Studios", WIDTH / 2, HEIGHT / 1.3,
+                         arcade.color.WHITE, font_size=100, anchor_x="center")
+        arcade.draw_text("Presents:", WIDTH / 2, HEIGHT / 2 - 155,
+                         arcade.color.RED, font_size=20, anchor_x="center")
+        arcade.draw_text("Clicca ovunque per continuare", WIDTH / 2, HEIGHT / 4,
+                         arcade.color.GRAY, font_size=24, anchor_x="center")
+
+    def on_mouse_press(self, _x, _y, _button, _modifiers):
+        menu_view = MenuView()
+        self.window.show_view(menu_view)
 class MenuView(arcade.View):
     def on_show_view(self):
         self.window.background_color = arcade.color.BLACK
@@ -14,7 +30,7 @@ class MenuView(arcade.View):
     def on_draw(self):
         self.clear()
         arcade.draw_text("ENDLESS GALACTIC SHIP", WIDTH / 1, HEIGHT / 1.3,
-                         arcade.color.WHITE, font_size=100, anchor_x="center")
+                         arcade.color.WHITE, font_size=120, anchor_x="center")
         arcade.draw_text("Click to advance", WIDTH / 1, HEIGHT / 2 - 155,
                          arcade.color.RED, font_size=20, anchor_x="center")
 
@@ -243,10 +259,8 @@ class PauseView(arcade.View):
 
 def main():
     window = arcade.Window(WIDTH, HEIGHT, "Endless Galactic Ship", fullscreen=True)
-    game_view = GameView()
-    window.show_view(game_view)
-    menu_view = MenuView()
-    window.show_view(menu_view)
+    splash = Ezuripresents()
+    window.show_view(splash)
     arcade.run()
 if __name__ == "__main__":
     main()
