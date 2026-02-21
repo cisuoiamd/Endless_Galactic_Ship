@@ -75,25 +75,26 @@ class GameOverView(arcade.View):
         arcade.draw_text(
             "Game Over",
             x=WIDTH / 1,
-            y=400,
+            y=700,
             color=arcade.color.WHITE,
-            font_size=54,
+            font_size=150,
             anchor_x="center"
         )
         arcade.draw_text(
             "You Died",
-            x=WIDTH / 2,
-            y=200,
+            x=WIDTH / 1,
+            y=450,
             color=arcade.color.RED,
-            font_size=25,
+            font_size=200,
             anchor_x="center"
         )
         arcade.draw_text("Press ENTER to restart",
-                         self.window.width / 2,
-                         self.window.height / 2 - 30,
-                         arcade.color.WHITE,
-                         font_size=40,
-                         anchor_x="center")
+         x=WIDTH / 1,
+            y=300,
+            color=arcade.color.WHITE,
+            font_size=30,
+            anchor_x="center"
+        )
     def on_key_press(self, key, _modifiers):
         if key == arcade.key.ENTER:
             game = GameView()
@@ -268,7 +269,7 @@ class PauseView(arcade.View):
                          arcade.color.WHITE,
                          font_size=150,
                          anchor_x="center")
-        arcade.draw_text("Press ENTER to reset",
+        arcade.draw_text("Press ESC to resume",
                          self.window.width / 2,
                          self.window.height / 2 - 30,
                          arcade.color.WHITE,
