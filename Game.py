@@ -68,19 +68,13 @@ class InstructionView(arcade.View):
 class GameOverView(arcade.View):
     def __init__(self):
         super().__init__()
-        self.time_taken = 0
-
     def on_show_view(self):
         self.window.background_color = arcade.color.BLACK
-
     def on_draw(self):
         self.clear()
-        """
-        Draw "Game over" across the screen.
-        """
         arcade.draw_text(
             "Game Over",
-            x=WIDTH / 2,
+            x=WIDTH / 1,
             y=400,
             color=arcade.color.WHITE,
             font_size=54,
@@ -94,6 +88,16 @@ class GameOverView(arcade.View):
             font_size=25,
             anchor_x="center"
         )
+        arcade.draw_text("Press ENTER to restart",
+                         self.window.width / 2,
+                         self.window.height / 2 - 30,
+                         arcade.color.WHITE,
+                         font_size=40,
+                         anchor_x="center")
+    def on_key_press(self, key, _modifiers):
+        if key == arcade.key.ENTER:
+            game = GameView()
+            self.window.show_view(game)
 class GameView(arcade.View):
     def __init__(self):
         super().__init__()
@@ -264,12 +268,6 @@ class PauseView(arcade.View):
                          arcade.color.WHITE,
                          font_size=150,
                          anchor_x="center")
-        arcade.draw_text("Press ESC to continue",
-                         self.window.width / 2,
-                         self.window.height / 2+20,
-                         arcade.color.WHITE,
-                         font_size=40,
-                         anchor_x="center")
         arcade.draw_text("Press ENTER to reset",
                          self.window.width / 2,
                          self.window.height / 2 - 30,
@@ -279,9 +277,6 @@ class PauseView(arcade.View):
     def on_key_press(self, key, _modifiers):
         if key == arcade.key.ESCAPE:
             self.window.show_view(self.game_view)
-        elif key == arcade.key.ENTER:
-            game = GameView()
-            self.window.show_view(game)
 def main():
     window = arcade.Window(WIDTH, HEIGHT, "Endless Galactic Ship", fullscreen=True)
     splash = Ezuripresents()
