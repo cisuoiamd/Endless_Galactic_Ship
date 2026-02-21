@@ -204,6 +204,7 @@ class PauseView(arcade.View):
         self.game_view.player_list.draw()
         self.game_view.bullet_list.draw()
         self.game_view.barra.on_draw()
+        self.game_view.enemy_list.draw()
         overlay_color = arcade.color.BLACK[:3] + (128,)
         arcade.draw_lrbt_rectangle_filled(
             left=0,
@@ -222,7 +223,7 @@ class PauseView(arcade.View):
                          self.window.width / 2,
                          self.window.height / 2,
                          arcade.color.WHITE,
-                         font_size=0,
+                         font_size=20,
                          anchor_x="center")
         arcade.draw_text("Press ENTER to reset",
                          self.window.width / 2,
