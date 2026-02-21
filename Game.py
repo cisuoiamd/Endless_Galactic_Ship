@@ -36,9 +36,11 @@ class MenuView(arcade.View):
     def on_draw(self):
         self.clear()
         arcade.draw_text("ENDLESS GALACTIC SHIP", WIDTH / 1, HEIGHT / 1.3,
-                         arcade.color.WHITE, font_size=120, anchor_x="center")
-        arcade.draw_text("Click to advance", WIDTH / 1, HEIGHT / 2 - 155,
+                         arcade.color.PURPLE, font_size=120, anchor_x="center")
+        arcade.draw_text("Click to advance", WIDTH / 1, HEIGHT / 2 - 255,
                          arcade.color.RED, font_size=20, anchor_x="center")
+
+                         
 
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
