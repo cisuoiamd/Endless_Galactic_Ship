@@ -2,8 +2,8 @@ import arcade
 import Health_bar
 from Nemicobase import Enemy
 
-WIDTH = 900
-HEIGHT = 800
+WIDTH = 900  
+HEIGHT = 1079  #modificare questo parametro per far spawnare i nemici + in alto (1079 per schermi da pc fissi, 800 per laptop)
 
 class GameView(arcade.View):
     def __init__(self):
@@ -26,7 +26,7 @@ class GameView(arcade.View):
         self.barra = None
         
         self.enemy_spawn_timer = 0
-        self.enemy_spawn_interval = 0.4
+        self.enemy_spawn_interval = 0.25
         self.enemy_speed = 6
         self.lives = 1.0
         self.score = 0
