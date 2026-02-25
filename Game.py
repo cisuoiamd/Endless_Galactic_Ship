@@ -105,7 +105,7 @@ class GameView(arcade.View):
         self.player_list = arcade.SpriteList()
         self.bullet_list = arcade.SpriteList()
         self.enemy_list = arcade.SpriteList()
-        
+        self.dead_enemy = arcade.load_sound(path=("./assets/enemy_dead.wav"))
         self.shoot_cooldown = 0.4          
         self.shoot_timer = 0
         
@@ -114,17 +114,16 @@ class GameView(arcade.View):
         
         self.change_x = 0
         self.change_y = 0
-        
+
         self.background = None
         self.player_sprite = None
         self.barra = None
-        
+
         self.enemy_spawn_timer = 0
         self.enemy_spawn_interval = 0.15
         self.enemy_speed = 6
         self.lives = 1.0
         self.score = 0
-        
         self.setup()
 
     def setup(self):
@@ -185,6 +184,7 @@ class GameView(arcade.View):
         for bullet in self.bullet_list[:]:
             hit_list = arcade.check_for_collision_with_list(bullet, self.enemy_list)
             for enemy in hit_list:
+                arcade.play_sound(self.dead_enemy)
                 bullet.remove_from_sprite_lists()
                 enemy.remove_from_sprite_lists()
                 self.score += 1
@@ -209,7 +209,7 @@ class GameView(arcade.View):
         bullet.change_x = self.bullet_speed
         bullet.change_y = 0
         self.bullet_list.append(bullet)
-    
+        
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.W:
