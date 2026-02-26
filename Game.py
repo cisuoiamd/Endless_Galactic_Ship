@@ -68,6 +68,7 @@ class InstructionView(arcade.View):
 class GameOverView(arcade.View):
     def __init__(self):
         super().__init__()
+    
     def on_show_view(self):
         self.window.background_color = arcade.color.BLACK
     def on_draw(self):
@@ -105,7 +106,10 @@ class GameView(arcade.View):
         self.player_list = arcade.SpriteList()
         self.bullet_list = arcade.SpriteList()
         self.enemy_list = arcade.SpriteList()
+        self.blaster = arcade.load_sound(path=("./assets/blasterriflesound.mp3"))
         self.dead_enemy = arcade.load_sound(path=("./assets/enemy_dead.wav"))
+        self.gameover = arcade.load_sound(path=("./assets/gameoversound.wav"))
+        self.hurt = arcade.load_sound(path=("./assets/hurtsound.wav"))
         self.shoot_cooldown = 0.4          
         self.shoot_timer = 0
         
@@ -190,12 +194,14 @@ class GameView(arcade.View):
                 self.score += 1
         for enemy in self.enemy_list[:]:
             if arcade.check_for_collision(self.player_sprite, enemy):
+                arcade.play_sound(self.hurt)
                 self.lives -= 0.10
                 if self.lives < 0:
                     self.lives = 0
                 enemy.remove_from_sprite_lists()
         self.barra.percentuale = self.lives
         if (self.lives) == 0:
+            arcade.play_sound(self.gameover)
             game_over_view = GameOverView()
             self.window.set_mouse_visible(True)
             self.window.show_view(game_over_view)
@@ -209,7 +215,7 @@ class GameView(arcade.View):
         bullet.change_x = self.bullet_speed
         bullet.change_y = 0
         self.bullet_list.append(bullet)
-        
+        arcade.play_sound(self.blaster)
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.W:
