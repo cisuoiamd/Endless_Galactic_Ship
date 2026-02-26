@@ -106,7 +106,6 @@ class GameView(arcade.View):
         self.player_list = arcade.SpriteList()
         self.bullet_list = arcade.SpriteList()
         self.enemy_list = arcade.SpriteList()
-        self.blaster = arcade.load_sound(path=("./assets/blasterriflesound.mp3"))
         self.dead_enemy = arcade.load_sound(path=("./assets/enemy_dead.wav"))
         self.gameover = arcade.load_sound(path=("./assets/gameoversound.wav"))
         self.hurt = arcade.load_sound(path=("./assets/hurtsound.wav"))
@@ -215,7 +214,7 @@ class GameView(arcade.View):
         bullet.change_x = self.bullet_speed
         bullet.change_y = 0
         self.bullet_list.append(bullet)
-        arcade.play_sound(self.blaster)
+ 
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.W:
