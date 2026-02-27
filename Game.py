@@ -6,16 +6,21 @@ from Nemicobase import Enemy
 WIDTH = 900  
 HEIGHT = 1079  #modificare questo parametro per far spawnare i nemici + in alto (1079 per schermi da pc fissi, 800 per laptop) 
 #ATTENZIONE CHE ANCHE SU Nemiconbase.py ci sono parametri da modificare anche nella riga 123 0.15 per pc fissi, 0.4-5 per laptop
-
 class Ezuripresents(arcade.View):
     def __init__(self):
         super().__init__()
+        Intro = arcade.load_sound("./assets/EndlessGalacticShipIntro.mp3")
+        self.Intro1 = Intro.play()
         self.timer = 0.0
+
     def on_update(self, delta_time):
         self.timer += delta_time
         if self.timer >= 3.5:
+            arcade.stop_sound(self.Intro1) 
+            self.Intro1 = None 
             menu_view = MenuView()
             self.window.show_view(menu_view)
+
     def on_draw(self):
         self.clear()
         arcade.draw_text("Ezuri's Studios", WIDTH / 1, HEIGHT / 1.5,
@@ -24,15 +29,15 @@ class Ezuripresents(arcade.View):
                          arcade.color.RED, font_size=50, anchor_x="center")
         arcade.draw_text("Click to skip", WIDTH / 1, HEIGHT / 2 - 500,
                          arcade.color.GREEN, font_size=20, anchor_x="center")
+
     def on_mouse_press(self, _x, _y, _button, _modifiers):
+        arcade.stop_sound(self.Intro1) 
+        self.Intro1 = None 
         menu_view = MenuView()
         self.window.show_view(menu_view)
 class MenuView(arcade.View):
     def on_show_view(self):
         self.window.background_color = arcade.color.BLACK
-        self.Intro = arcade.load_sound(path=("./assets/EndlessGalacticShipIntro.mp3"))
-        if MenuView: 
-            arcade.play_sound(self.Intro)
     def on_draw(self):
         self.clear()
         arcade.draw_text("ENDLESS GALACTIC SHIP", WIDTH / 1, HEIGHT / 1.3,
@@ -43,6 +48,10 @@ class MenuView(arcade.View):
         instructions_view = InstructionView()
         self.window.show_view(instructions_view)
 class InstructionView(arcade.View):
+    def __init__(self):
+        super().__init__()
+        Intro= arcade.load_sound("./assets/EndlessGalacticShipIntro.mp3")
+        self.Intro1 = Intro.play(volume=0)
     def on_show_view(self):
         self.window.background_color = arcade.color.BLACK
 
@@ -111,9 +120,9 @@ class GameView(arcade.View):
         self.dead_enemy = arcade.load_sound(path=("./assets/enemy_dead.wav"))
         self.gameover = arcade.load_sound(path=("./assets/gameoversound.wav"))
         self.hurt = arcade.load_sound(path=("./assets/hurtsound.wav"))
-        self.shoot_cooldown = 0.4          
+        self.shoot_cooldown = 0.4  
+                
         self.shoot_timer = 0
-        
         self.player_speed = 6
         self.bullet_speed = 12
         
