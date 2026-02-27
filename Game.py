@@ -30,7 +30,9 @@ class Ezuripresents(arcade.View):
 class MenuView(arcade.View):
     def on_show_view(self):
         self.window.background_color = arcade.color.BLACK
-
+        self.Intro = arcade.load_sound(path=("./assets/EndlessGalacticShipIntro.mp3"))
+        if MenuView: 
+            arcade.play_sound(self.Intro)
     def on_draw(self):
         self.clear()
         arcade.draw_text("ENDLESS GALACTIC SHIP", WIDTH / 1, HEIGHT / 1.3,
@@ -68,7 +70,6 @@ class InstructionView(arcade.View):
 class GameOverView(arcade.View):
     def __init__(self):
         super().__init__()
-    
     def on_show_view(self):
         self.window.background_color = arcade.color.BLACK
     def on_draw(self):
