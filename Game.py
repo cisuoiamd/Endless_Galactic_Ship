@@ -9,8 +9,6 @@ HEIGHT = 1079  #modificare questo parametro per far spawnare i nemici + in alto 
 class Ezuripresents(arcade.View):
     def __init__(self):
         super().__init__()
-        Intro = arcade.load_sound("./assets/EndlessGalacticShipIntro.mp3")
-        self.Intro1 = Intro.play()
         self.timer = 0.0
 
     def on_update(self, delta_time):
@@ -31,11 +29,14 @@ class Ezuripresents(arcade.View):
                          arcade.color.GREEN, font_size=20, anchor_x="center")
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
-        arcade.stop_sound(self.Intro1) 
-        self.Intro1 = None 
         menu_view = MenuView()
         self.window.show_view(menu_view)
 class MenuView(arcade.View):
+    def __init__(self):
+        super().__init__()
+        Intro = arcade.load_sound("./assets/EndlessGalacticShipIntro.mp3")
+        self.Intro1 = Intro.play()
+
     def on_show_view(self):
         self.window.background_color = arcade.color.BLACK
     def on_draw(self):
@@ -47,6 +48,8 @@ class MenuView(arcade.View):
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         instructions_view = InstructionView()
         self.window.show_view(instructions_view)
+        arcade.stop_sound(self.Intro1) 
+        self.Intro1 = None
 class InstructionView(arcade.View):
     def __init__(self):
         super().__init__()
