@@ -86,7 +86,7 @@ class GameOverView(arcade.View):
         arcade.draw_text(
             "Game Over",
             x=WIDTH / 1,
-            y=700,
+            y=550,
             color=arcade.color.WHITE,
             font_size=150,
             anchor_x="center"
@@ -94,14 +94,14 @@ class GameOverView(arcade.View):
         arcade.draw_text(
             "You Died",
             x=WIDTH / 1,
-            y=450,
+            y=300,
             color=arcade.color.RED,
             font_size=200,
             anchor_x="center"
         )
         arcade.draw_text("Press ENTER to restart",
          x=WIDTH / 1,
-            y=300,
+            y=170,
             color=arcade.color.WHITE,
             font_size=30,
             anchor_x="center"
