@@ -134,7 +134,7 @@ class GameView(arcade.View):
         self.barra = None
 
         self.enemy_spawn_timer = 0
-        self.enemy_spawn_interval = 0.4
+        self.enemy_spawn_interval = 0.3
         self.enemy_speed = 6
         self.lives = 1.0
         self.score = 0
