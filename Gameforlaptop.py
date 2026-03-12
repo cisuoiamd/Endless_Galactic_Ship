@@ -4,8 +4,7 @@ import Health_bar
 from Nemicobase import Enemy
 
 WIDTH = 650  
-HEIGHT = 800  #modificare questo parametro per far spawnare i nemici + in alto (1079 per schermi da pc fissi, 800 per laptop) 
-#ATTENZIONE CHE ANCHE SU Nemiconbase.py ci sono parametri da modificare anche nella riga 123 0.15 per pc fissi, 0.4-5 per laptop
+HEIGHT = 800  
 class Ezuripresents(arcade.View):
     def __init__(self):
         super().__init__()
