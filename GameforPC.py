@@ -14,8 +14,6 @@ class Ezuripresents(arcade.View):
     def on_update(self, delta_time):
         self.timer += delta_time
         if self.timer >= 3.5:
-            arcade.stop_sound(self.Intro1) 
-            self.Intro1 = None 
             menu_view = MenuView()
             self.window.show_view(menu_view)
 
@@ -53,15 +51,13 @@ class MenuView(arcade.View):
 class InstructionView(arcade.View):
     def __init__(self):
         super().__init__()
-        Intro= arcade.load_sound("./assets/EndlessGalacticShipIntro.mp3")
-        self.Intro1 = Intro.play(volume=0)
     def on_show_view(self):
         self.window.background_color = arcade.color.BLACK
 
     def on_draw(self):
         self.clear()
         arcade.draw_text("Comands Screen for PC", WIDTH / 1, HEIGHT / 1.3,
-                         arcade.color.WHITE, font_size=100, anchor_x="center")
+                         arcade.color.YELLOW, font_size=100, anchor_x="center")
         arcade.draw_text("Click to start the game", WIDTH / 1, HEIGHT / 2.2 - 400,
                          arcade.color.RED, font_size=30, anchor_x="center")
         arcade.draw_text("Fire = Left Mouse, SPACE", WIDTH / 1, HEIGHT / 2 +100,
