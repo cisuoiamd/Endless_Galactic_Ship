@@ -43,7 +43,7 @@ class MenuView(arcade.View):
                          arcade.color.PURPLE, font_size=95, anchor_x="center")
         arcade.draw_text("Click to advance", WIDTH / 1, HEIGHT / 2 - 255,
                          arcade.color.RED, font_size=20, anchor_x="center")
-    
+           
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         instructions_view = InstructionView()
         self.window.show_view(instructions_view)
@@ -79,6 +79,7 @@ class InstructionView(arcade.View):
 class GameOverView(arcade.View):
     def __init__(self):
         super().__init__()
+        self.score=0
     def on_show_view(self):
         self.window.background_color = arcade.color.BLACK
     def on_draw(self):
@@ -102,6 +103,13 @@ class GameOverView(arcade.View):
         arcade.draw_text("Press ENTER to restart",
          x=WIDTH / 1,
             y=170,
+            color=arcade.color.WHITE,
+            font_size=30,
+            anchor_x="center"
+        )
+        arcade.draw_text(f"Final Score: {self.score}",
+         x=WIDTH / 1 +400,
+            y=60,
             color=arcade.color.WHITE,
             font_size=30,
             anchor_x="center"
