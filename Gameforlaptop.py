@@ -4,7 +4,7 @@ import Health_bar
 from Nemicobase import Enemy
 
 WIDTH = 650  
-HEIGHT = 800  
+HEIGHT = 800
 class Ezuripresents(arcade.View):
     def __init__(self):
         super().__init__()
@@ -47,6 +47,7 @@ class MenuView(arcade.View):
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         instructions_view = InstructionView()
         self.window.show_view(instructions_view)
+        #donduz è stato qui (easter egg)
         arcade.stop_sound(self.Intro1) 
         self.Intro1 = None
 class InstructionView(arcade.View):
