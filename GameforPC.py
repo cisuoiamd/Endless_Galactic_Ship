@@ -204,7 +204,7 @@ class GameView(arcade.View):
         for enemy in self.enemy_list[:]:
             if arcade.check_for_collision(self.player_sprite, enemy):
                 arcade.play_sound(self.hurt)
-                self.lives -= 0.10
+                self.lives -= 0.125
                 if self.lives < 0:
                     self.lives = 0
                 enemy.remove_from_sprite_lists()
