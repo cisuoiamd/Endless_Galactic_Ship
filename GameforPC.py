@@ -76,16 +76,19 @@ class InstructionView(arcade.View):
         self.window.show_view(game_view)
 
 class GameOverView(arcade.View):
-    def __init__(self):
+    def __init__(self, punteggio: int = 0):
         super().__init__()
+        self.punteggio = punteggio                           # verrà riempito dopo
+
     def on_show_view(self):
         self.window.background_color = arcade.color.BLACK
+
     def on_draw(self):
         self.clear()
         arcade.draw_text(
             "Game Over",
             x=WIDTH / 1,
-            y=700,
+            y=550,
             color=arcade.color.WHITE,
             font_size=150,
             anchor_x="center"
@@ -93,22 +96,26 @@ class GameOverView(arcade.View):
         arcade.draw_text(
             "You Died",
             x=WIDTH / 1,
-            y=450,
+            y=300,
             color=arcade.color.RED,
             font_size=200,
             anchor_x="center"
         )
         arcade.draw_text("Press ENTER to restart",
          x=WIDTH / 1,
-            y=300,
+            y=170,
             color=arcade.color.WHITE,
             font_size=30,
             anchor_x="center"
         )
-    def on_key_press(self, key, _modifiers):
-        if key == arcade.key.ENTER:
-            game = GameView()
-            self.window.show_view(game)
+        arcade.draw_text(f"Final Score: {self.punteggio}",
+         x=WIDTH / 1 +400,
+            y=60,
+            color=arcade.color.WHITE,
+            font_size=30,
+            anchor_x="center"
+        )
+
 class GameView(arcade.View):
     def __init__(self):
         super().__init__()
@@ -136,7 +143,7 @@ class GameView(arcade.View):
         self.enemy_spawn_interval = 0.15
         self.enemy_speed = 6
         self.lives = 1.0
-        self.score = 0
+        self.punteggio = 0
         self.setup()
 
     def setup(self):
@@ -153,7 +160,7 @@ class GameView(arcade.View):
         self.change_y = 0
         self.enemy_spawn_timer = 0
         self.lives = 1.0
-        self.score = 0
+        self.punteggio = 0
     def spawn_enemy(self):
         nemico = Enemy(screen_height=HEIGHT, scale=0.3, speed=self.enemy_speed)
         self.enemy_list.append(nemico)
@@ -200,7 +207,7 @@ class GameView(arcade.View):
                 arcade.play_sound(self.dead_enemy)
                 bullet.remove_from_sprite_lists()
                 enemy.remove_from_sprite_lists()
-                self.score += 1
+                self.punteggio += 1
         for enemy in self.enemy_list[:]:
             if arcade.check_for_collision(self.player_sprite, enemy):
                 arcade.play_sound(self.hurt)
