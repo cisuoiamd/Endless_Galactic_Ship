@@ -175,7 +175,7 @@ class GameView(arcade.View):
         self.player_list.draw()
         self.bullet_list.draw()
         self.barra.on_draw()
-        arcade.draw_text(f"Killed: {self.score}",
+        arcade.draw_text(f"Killed: {self.punteggio}",
                          50,
                          self.window.height - 50,
                          arcade.color.WHITE,
