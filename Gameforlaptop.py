@@ -1,25 +1,25 @@
 import arcade
 import random
 import Health_bar    
-from Nemicobase import Enemy   #da nemicobase importa tutti i parametri di Enemy 
+from Nemicobase import Enemy
 
 WIDTH = 650  
 HEIGHT = 800
 
-# Schermata di splash (è una schermata creata apposta per i crediti) iniziale con nome studio (dura max 3.5 secondi o salta con click)
+
 class Ezuripresents(arcade.View):
     def __init__(self):
         super().__init__()
-        self.timer = 0.0                        # contatore per passare automaticamente al menu
+        self.timer = 0.0
 
     def on_update(self, delta_time):
-        self.timer += delta_time                # accumula il tempo reale trascorso
-        if self.timer >= 3.5:                   # dopo 3.5 secondi -> vai al menu
+        self.timer += delta_time
+        if self.timer >= 3.5:
             menu_view = MenuView()
             self.window.show_view(menu_view)
 
     def on_draw(self):
-        self.clear()                            # pulisce lo schermo prima di disegnare
+        self.clear()
         arcade.draw_text("Ezuri's Studios", WIDTH / 1, HEIGHT / 1.5,
                          arcade.color.WHITE, font_size=150, anchor_x="center")
         arcade.draw_text("Presents:", WIDTH / 1, HEIGHT / 2 - 125,
@@ -29,17 +29,17 @@ class Ezuripresents(arcade.View):
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         menu_view = MenuView()
-        self.window.show_view(menu_view)        # qualsiasi click -> salta al menu
+        self.window.show_view(menu_view)
 
-# Schermata titolo + musica di intro
+
 class MenuView(arcade.View):
     def __init__(self):
         super().__init__()
         Intro = arcade.load_sound("./assets/EndlessGalacticShipIntro.mp3")
-        self.Intro1 = Intro.play()              # parte la musica e la salva per poterla fermare
+        self.Intro1 = Intro.play()
 
     def on_show_view(self):
-        self.window.background_color = arcade.color.BLACK   # sfondo nero quando appare
+        self.window.background_color = arcade.color.BLACK
 
     def on_draw(self):
         self.clear()
@@ -51,11 +51,10 @@ class MenuView(arcade.View):
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         instructions_view = InstructionView()
         self.window.show_view(instructions_view)
-        #donduz è stato qui (easter egg)
-        arcade.stop_sound(self.Intro1)          # ferma la musica quando si va avanti
-        self.Intro1 = None                      # pulisce il riferimento
+        arcade.stop_sound(self.Intro1)
+        self.Intro1 = None
 
-# Schermata comandi / istruzioni
+
 class InstructionView(arcade.View):
     def __init__(self):
         super().__init__()
@@ -73,96 +72,70 @@ class InstructionView(arcade.View):
                          arcade.color.WHITE, font_size=40, anchor_x="center")
         arcade.draw_text("Go Up: W", WIDTH / 1, HEIGHT / 2 +0,
                          arcade.color.WHITE, font_size=40, anchor_x="center")
-        arcade.draw_text("Go Down: S", WIDTH / 1, HEIGHT / 2 -100 ,
+        arcade.draw_text("Go Down: S", WIDTH / 1, HEIGHT / 2 -100,
                          arcade.color.WHITE, font_size=40, anchor_x="center")
-        arcade.draw_text("Go Left: A", WIDTH / 1, HEIGHT / 2 -200 ,
+        arcade.draw_text("Go Left: A", WIDTH / 1, HEIGHT / 2 -200,
                          arcade.color.WHITE, font_size=40, anchor_x="center")
         arcade.draw_text("Go Right: D", WIDTH / 1, HEIGHT / 2 -300,
                          arcade.color.WHITE, font_size=40, anchor_x="center")
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
         game_view = GameView()
-        self.window.show_view(game_view)        # click -> inizia la partita
+        self.window.show_view(game_view)
 
-# Schermata game over
+
 class GameOverView(arcade.View):
     def __init__(self, punteggio: int = 0):
         super().__init__()
-        self.punteggio = punteggio                           # verrà riempito dopo
+        self.punteggio = punteggio
 
     def on_show_view(self):
         self.window.background_color = arcade.color.BLACK
 
     def on_draw(self):
         self.clear()
-        arcade.draw_text(
-            "Game Over",
-            x=WIDTH / 1,
-            y=550,
-            color=arcade.color.WHITE,
-            font_size=150,
-            anchor_x="center"
-        )
-        arcade.draw_text(
-            "You Died",
-            x=WIDTH / 1,
-            y=300,
-            color=arcade.color.RED,
-            font_size=200,
-            anchor_x="center"
-        )
-        arcade.draw_text("Press ENTER to restart",
-         x=WIDTH / 1,
-            y=170,
-            color=arcade.color.WHITE,
-            font_size=30,
-            anchor_x="center"
-        )
-        arcade.draw_text(f"Final Score: {self.punteggio}",
-         x=WIDTH / 1 +400,
-            y=60,
-            color=arcade.color.WHITE,
-            font_size=30,
-            anchor_x="center"
-        )
+        arcade.draw_text("Game Over", WIDTH / 1, 550, arcade.color.WHITE, font_size=150, anchor_x="center")
+        arcade.draw_text("You Died", WIDTH / 1, 300, arcade.color.RED, font_size=200, anchor_x="center")
+        arcade.draw_text("Press ENTER to restart", WIDTH / 1, 170, arcade.color.WHITE, font_size=30, anchor_x="center")
+        arcade.draw_text(f"Final Score: {self.punteggio}", WIDTH / 1 +400, 60, arcade.color.WHITE, font_size=30, anchor_x="center")
 
     def on_key_press(self, key, _modifiers):
         if key == arcade.key.ENTER:
             game = GameView()
-            self.window.show_view(game)         # ENTER -> nuova partita
+            self.window.show_view(game)
 
-# Schermata di gioco principale
+
 class GameView(arcade.View):
     def __init__(self):
         super().__init__()
-        self.player_list = arcade.SpriteList()      # lista sprite del giocatore 
-        self.bullet_list = arcade.SpriteList()      # tutti i proiettili
-        self.enemy_list = arcade.SpriteList()       # tutti i nemici
+        self.player_list = arcade.SpriteList()
+        self.bullet_list = arcade.SpriteList()
+        self.enemy_list = arcade.SpriteList()
 
-        self.blaster = arcade.load_sound(path=("./assets/blasterfakesound.wav"))
-        self.dead_enemy = arcade.load_sound(path=("./assets/enemy_dead.wav"))
-        self.gameover = arcade.load_sound(path=("./assets/gameoversound.wav"))
-        self.hurt = arcade.load_sound(path=("./assets/hurtsound.wav"))
+        self.blaster = arcade.load_sound("./assets/blasterfakesound.wav")
+        self.dead_enemy = arcade.load_sound("./assets/enemy_dead.wav")
+        self.gameover = arcade.load_sound("./assets/gameoversound.wav")
+        self.hurt = arcade.load_sound("./assets/hurtsound.wav")
 
-        self.shoot_cooldown = 0.4               # secondi tra uno sparo e l'altro
-        self.shoot_timer = 0                    # timer countdown per il cooldown
+        self.shoot_cooldown = 0.4
+        self.shoot_timer = 0
 
         self.player_speed = 6
         self.bullet_speed = 12
 
-        self.change_x = 0                       # velocità orizzontale attuale
-        self.change_y = 0                       # velocità verticale attuale
+        self.change_x = 0
+        self.change_y = 0
 
         self.background = None
         self.player_sprite = None
         self.barra = None
 
         self.enemy_spawn_timer = 0
-        self.enemy_spawn_interval = 0.3         # ogni quanti secondi spawnare un nemico
+        self.enemy_spawn_interval = 0.3
         self.enemy_speed = 6
         self.lives = 1.0
         self.punteggio = 0
-        self.setup()                            # inizializza tutto
+        self.setup()
 
     def setup(self):
         self.background = arcade.load_texture("./assets/sfondo.png")
@@ -170,7 +143,7 @@ class GameView(arcade.View):
         self.player_sprite.center_x = 100
         self.player_sprite.center_y = HEIGHT // 2  
         self.player_list.clear()
-        self.player_list.append(self.player_sprite)     # aggiunge il giocatore alla lista
+        self.player_list.append(self.player_sprite)
         self.barra = Health_bar.Barra(self.player_sprite, self.lives)
         self.enemy_list = arcade.SpriteList()
         self.bullet_list.clear()
@@ -182,7 +155,20 @@ class GameView(arcade.View):
 
     def spawn_enemy(self):
         nemico = Enemy(screen_height=HEIGHT, scale=0.3, speed=self.enemy_speed)
-        self.enemy_list.append(nemico)          # aggiunge il nemico alla lista
+        self.enemy_list.append(nemico)
+
+    # ==================== LIMITI DELLO SCHERMO ====================
+    def keep_player_in_bounds(self):
+        margin = 25
+
+        if self.player_sprite.left < margin:
+            self.player_sprite.left = margin
+        if self.player_sprite.right > WIDTH - margin:
+            self.player_sprite.right = WIDTH - margin
+        if self.player_sprite.top > HEIGHT - margin:
+            self.player_sprite.top = HEIGHT - margin
+        if self.player_sprite.bottom < margin:
+            self.player_sprite.bottom = margin
 
     def on_draw(self):
         self.clear()
@@ -194,40 +180,35 @@ class GameView(arcade.View):
         self.player_list.draw()
         self.bullet_list.draw()
         self.barra.on_draw()
-        arcade.draw_text(f"Killed: {self.punteggio}",
-                         50,
-                         self.window.height - 50,
-                         arcade.color.WHITE,
-                         font_size=24,
-                         anchor_x="left")
-        arcade.draw_text("Press ESC to pause",
-                         self.window.width // 2,
-                         self.window.height - 50,
-                         arcade.color.WHITE,
-                         font_size=30,
-                         anchor_x="center")
+        arcade.draw_text(f"Killed: {self.punteggio}", 50, self.window.height - 50,
+                         arcade.color.WHITE, font_size=24, anchor_x="left")
+        arcade.draw_text("Press ESC to pause", self.window.width // 2,
+                         self.window.height - 50, arcade.color.WHITE, font_size=30, anchor_x="center")
 
     def on_update(self, delta_time):
-        self.player_sprite.center_x += self.change_x    # applica movimento orizzontale
-        self.player_sprite.center_y += self.change_y    # applica movimento verticale
+        self.player_sprite.center_x += self.change_x
+        self.player_sprite.center_y += self.change_y
+
+        # Applica i limiti
+        self.keep_player_in_bounds()
 
         if self.shoot_timer > 0:
-            self.shoot_timer -= delta_time              # decrementa cooldown sparo
+            self.shoot_timer -= delta_time
 
-        self.bullet_list.update()                       # muove tutti i proiettili
+        self.bullet_list.update()
 
         for bullet in self.bullet_list[:]:
             if bullet.left > self.window.width:
-                bullet.remove_from_sprite_lists()       # elimina proiettili usciti dallo schermo
+                bullet.remove_from_sprite_lists()
 
         self.enemy_spawn_timer += delta_time
         if self.enemy_spawn_timer >= self.enemy_spawn_interval:
             self.spawn_enemy()
-            self.enemy_spawn_timer = 0                  # resetta timer spawn
+            self.enemy_spawn_timer = 0
 
-        self.enemy_list.update()                        # muove/aggiorna tutti i nemici
+        self.enemy_list.update()
 
-        # Collisione proiettili → nemici
+        # Collisione proiettili-nemici
         for bullet in self.bullet_list[:]:
             hit_list = arcade.check_for_collision_with_list(bullet, self.enemy_list)
             for enemy in hit_list:
@@ -236,35 +217,35 @@ class GameView(arcade.View):
                 enemy.remove_from_sprite_lists()
                 self.punteggio += 1
 
-        # Collisione giocatore → nemici
+        # Collisione giocatore-nemici
         for enemy in self.enemy_list[:]:
             if arcade.check_for_collision(self.player_sprite, enemy):
                 arcade.play_sound(self.hurt)
                 self.lives -= 0.125
                 if self.lives < 0:
                     self.lives = 0
-                enemy.remove_from_sprite_lists()        # nemico scompare dopo contatto
+                enemy.remove_from_sprite_lists()
 
-        self.barra.percentuale = self.lives             # aggiorna barra vita
+        self.barra.percentuale = self.lives
 
-        if (self.lives) == 0:
+        if self.lives <= 0:
             arcade.play_sound(self.gameover)
             game_over_view = GameOverView(self.punteggio)
             self.window.set_mouse_visible(True)
-            self.window.show_view(game_over_view)       # game over -> cambia schermata
+            self.window.show_view(game_over_view)
 
     def shoot(self):
         if self.shoot_timer > 0:
-            return                                      # ancora in cooldown -> non spara
+            return
       
-        self.shoot_timer = self.shoot_cooldown          # resetta timer cooldown
+        self.shoot_timer = self.shoot_cooldown
 
         bullet = arcade.Sprite("./assets/laser.png", scale=0.17)
         bullet.center_x = self.player_sprite.center_x + 90
         bullet.center_y = self.player_sprite.center_y + 15
-        bullet.change_x = self.bullet_speed             # proiettile va a destra
+        bullet.change_x = self.bullet_speed
         bullet.change_y = 0
-        self.bullet_list.append(bullet)                 # aggiunge alla lista proiettili
+        self.bullet_list.append(bullet)
         arcade.play_sound(self.blaster)
 
     def on_key_press(self, key, modifiers):
@@ -279,30 +260,26 @@ class GameView(arcade.View):
 
         if key == arcade.key.ESCAPE:
             pause = PauseView(self)
-            self.window.show_view(pause)                # ESC -> pausa
+            self.window.show_view(pause)
 
         if key == arcade.key.SPACE:
             self.shoot()
-        if key == arcade.key.SPACE:                     # duplicato (ridondante)
-            if self.shoot_timer <= 0:
-                self.shoot()
 
     def on_key_release(self, key, modifiers):
         if key == arcade.key.W or key == arcade.key.S:
-            self.change_y = 0                           # ferma movimento verticale
+            self.change_y = 0
         if key == arcade.key.A or key == arcade.key.D:
-            self.change_x = 0                           # ferma movimento orizzontale
+            self.change_x = 0
 
     def on_mouse_press(self, x, y, button, modifiers):
         if button == arcade.MOUSE_BUTTON_LEFT:
-            if self.shoot_timer <= 0: 
-                self.shoot()                            # click sinistro = sparo
+            self.shoot()
 
-# Schermata pausa
+
 class PauseView(arcade.View):
     def __init__(self, game_view):
         super().__init__()
-        self.game_view = game_view                  # tiene riferimento al gioco per riprendere
+        self.game_view = game_view
 
     def on_show_view(self):
         self.window.background_color = arcade.color.ORANGE  
@@ -318,32 +295,19 @@ class PauseView(arcade.View):
         self.game_view.barra.on_draw()
         self.game_view.enemy_list.draw()
 
-        overlay_color = arcade.color.BLACK[:3] + (128,)     # nero semitrasparente
-        arcade.draw_lrbt_rectangle_filled(
-            left=0,
-            right=self.window.width,
-            bottom=0,
-            top=self.window.height,
-            color=overlay_color
-        )
-        arcade.draw_text("PAUSE",
-                         self.window.width / 2,
-                         self.window.height / 2 + 150,
-                         arcade.color.WHITE,
-                         font_size=150,
-                         anchor_x="center")
-        arcade.draw_text("Press ESC to resume",
-                         self.window.width / 2,
-                         self.window.height / 2 - 30,
-                         arcade.color.WHITE,
-                         font_size=40,
-                         anchor_x="center")
+        overlay_color = arcade.color.BLACK[:3] + (128,)
+        arcade.draw_lrbt_rectangle_filled(0, self.window.width, 0, self.window.height, overlay_color)
+
+        arcade.draw_text("PAUSE", self.window.width / 2, self.window.height / 2 + 150,
+                         arcade.color.WHITE, font_size=150, anchor_x="center")
+        arcade.draw_text("Press ESC to resume", self.window.width / 2,
+                         self.window.height / 2 - 30, arcade.color.WHITE, font_size=40, anchor_x="center")
 
     def on_key_press(self, key, _modifiers):
         if key == arcade.key.ESCAPE:
-            self.window.show_view(self.game_view)   # ESC -> riprende gioco
+            self.window.show_view(self.game_view)
 
-# Avvio del programma
+
 def main():
     window = arcade.Window(WIDTH, HEIGHT, "Endless Galactic Ship", fullscreen=True)
     splash = Ezuripresents()
